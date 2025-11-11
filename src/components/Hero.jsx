@@ -5,14 +5,20 @@ const Hero = () => {
     return (
         <div>
             {/* Hero Section */}
-            <section
-                className="hero min-h-[60vh] bg-cover bg-center"
-                style={{
-                    backgroundImage:
-                        "linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde')",
-                }}
-            >
-                <div className="hero-content text-center text-white">
+            <section className="hero min-h-[20vh] md:min-h-[60vh]  relative ">
+                {/* Video Background */}
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute top-0 left-0 w-full h-full object-cover z-1"
+                >
+                    <source src="/hero.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+
+                <div className="hero-content text-center text-white relative z-10">
                     <div className="max-w-lg">
                         <h1 className="text-4xl font-bold">
                             Find Your Perfect Ride with TravelEase
@@ -21,7 +27,7 @@ const Hero = () => {
                             Explore, book, and manage vehicles effortlessly.
                         </p>
                         <div className="flex gap-3 justify-center">
-                            <button className="btn bg-[#e7eef3] text-[#0e151b] rounded-xl px-5 font-bold">
+                            <button className="btn btn-outline btn-primary">
                                 <NavLink to={"/allvehicles"}>
                                     Explore All Vehicles
                                 </NavLink>

@@ -10,7 +10,10 @@ const RecentlyAdded = () => {
                 <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {["Luxury Sedan", "Compact Car", "Electric Car", "SUV"].map(
                         (v, i) => (
-                            <div key={i} className="card bg-base-200 shadow-md">
+                            <div
+                                key={i}
+                                className="card bg-base-200 shadow-md  hover:shadow-lg hover:shadow-base-content transition-all hover:scale-105"
+                            >
                                 <figure>
                                     <img
                                         src={`https://picsum.photos/400/250?random=${

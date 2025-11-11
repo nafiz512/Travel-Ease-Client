@@ -2,10 +2,8 @@ import { use, useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import avater from "/avater.png";
 import { AuthContext } from "../context/AuthContext";
-// import { AuthContext } from "../AuthContext/AuthContext";
-
 import toast, { Toaster } from "react-hot-toast";
-// import { PiSignOutBold } from "react-icons/pi";
+import { motion, AnimatePresence } from "framer-motion";
 
 const notifySuccess = (message) => toast.success(message);
 const notifyError = (message) => toast.error(message);
@@ -15,6 +13,8 @@ const Navbar = () => {
     const [theme, setTheme] = useState(
         localStorage.getItem("theme") || "light"
     );
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
     // Apply theme to HTML tag
     useEffect(() => {
         document.querySelector("html").setAttribute("data-theme", theme);
@@ -38,28 +38,73 @@ const Navbar = () => {
     const links = (
         <>
             <li className=" font-medium ">
-                <NavLink to={"/"}>Home</NavLink>
+                <NavLink
+                    to={"/"}
+                    className={({ isActive }) =>
+                        isActive ? "bg-secondary text-white" : ""
+                    }
+                >
+                    Home
+                </NavLink>
             </li>
             <li className=" font-medium ">
-                <NavLink to={"/allvehicles"}>All Vehicles</NavLink>
+                <NavLink
+                    to={"/allvehicles"}
+                    className={({ isActive }) =>
+                        isActive ? "bg-secondary text-white" : ""
+                    }
+                >
+                    All Vehicles
+                </NavLink>
+            </li>
+
+            <li className=" font-medium ">
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive ? "bg-secondary text-white" : ""
+                    }
+                    to={"/myvehiclesicle"}
+                >
+                    {" "}
+                    My Vehicles
+                </NavLink>
             </li>
             <li className=" font-medium ">
-                <NavLink to={"/myprofile"}>My Profile</NavLink>
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive ? "bg-secondary text-white" : ""
+                    }
+                    to={"/mybookings"}
+                >
+                    My Bookings
+                </NavLink>
             </li>
             <li className=" font-medium ">
-                <NavLink to={"/myvehiclesicle"}> My Vehicles</NavLink>
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive ? "bg-secondary text-white" : ""
+                    }
+                    to={"/addvehicle"}
+                >
+                    Add Vehicle
+                </NavLink>
             </li>
             <li className=" font-medium ">
-                <NavLink to={"/mybookings"}>My Bookings</NavLink>
-            </li>
-            <li className=" font-medium ">
-                <NavLink to={"/addvehicle"}>Add Vehicle</NavLink>
+                <NavLink
+                    className={({ isActive }) =>
+                        isActive ? "bg-secondary text-white" : ""
+                    }
+                    to={"/vehicle-details"}
+                >
+                    Vehicle Details
+                </NavLink>
             </li>
         </>
     );
+
     return (
         <div>
-            <div className="mx-auto  navbar  shadow rounded-md">
+            <div className="mx-auto navbar shadow rounded-md">
                 <div className="navbar-start ">
                     <div className="dropdown">
                         <div
@@ -84,7 +129,7 @@ const Navbar = () => {
                         </div>
                         <ul
                             tabIndex="-1"
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52  shadow"
+                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 shadow"
                         >
                             {links}
                         </ul>
@@ -123,7 +168,7 @@ const Navbar = () => {
                             </svg>
                         ) : (
                             <svg
-                                className="swap-on h-8 md:h-10 w-8 md:w-10  fill-current"
+                                className="swap-on h-8 md:h-10 w-8 md:w-10 fill-current"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                             >
@@ -143,14 +188,18 @@ const Navbar = () => {
                                 to={"/signup"}
                                 className={`hidden sm:flex`}
                             >
-                                <button className="btn h-9 border border-black rounded-3xl text-gray-50 bg-[#4d9e75]">
+                                <button className="btn h-9 border border-black rounded-3xl text-gray-50 ">
                                     Sign up
                                 </button>
                             </NavLink>
                         </div>
                     ) : (
                         <div>
-                            <div className="dropdown dropdown-start dropdown-hover">
+                            <div
+                                className="dropdown dropdown-start dropdown-hover"
+                                onMouseEnter={() => setIsDropdownOpen(true)}
+                                onMouseLeave={() => setIsDropdownOpen(false)}
+                            >
                                 <div
                                     tabIndex={0}
                                     role="button"
@@ -167,20 +216,59 @@ const Navbar = () => {
                                     />
                                 </div>
 
-                                <ul
-                                    tabIndex={-1}
-                                    className="dropdown-content menu bg-secondary z-50 rounded-box -ml-20 w-34 md:w-32 p-2 shadow-sm"
-                                >
-                                    <p className="text-lg md:text-xl font-semibold text-white">
-                                        {user.displayName}
-                                    </p>
-                                    <li
-                                        onClick={handleSignOut}
-                                        className="text-white bg-gray-accent"
-                                    >
-                                        <a>Sign-Out</a>
-                                    </li>
-                                </ul>
+                                <AnimatePresence>
+                                    {isDropdownOpen && (
+                                        <motion.ul
+                                            tabIndex={-1}
+                                            className="dropdown-content menu bg-gray-500 z-50 rounded-box -ml-20 w-34 md:w-32 p-2 shadow-sm"
+                                            initial={{
+                                                opacity: 0,
+                                                y: -10,
+                                                scale: 0.95,
+                                            }}
+                                            animate={{
+                                                opacity: 1,
+                                                y: 0,
+                                                scale: 1,
+                                            }}
+                                            exit={{
+                                                opacity: 0,
+                                                y: -10,
+                                                scale: 0.95,
+                                            }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ delay: 0.2 }}
+                                            >
+                                                <p className="text-lg text-white md:text-xl font-semibold mb-2">
+                                                    {user.displayName}
+                                                </p>
+                                                <motion.li
+                                                    className="rounded-lg font-semibold hover:bg-accent text-white mb-1"
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                >
+                                                    <NavLink to={"/myprofile"}>
+                                                        My Profile
+                                                    </NavLink>
+                                                </motion.li>
+                                                <motion.li
+                                                    onClick={handleSignOut}
+                                                    className="rounded-lg font-semibold hover:bg-accent text-white"
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                >
+                                                    <a className="cursor-pointer">
+                                                        Sign-Out
+                                                    </a>
+                                                </motion.li>
+                                            </motion.div>
+                                        </motion.ul>
+                                    )}
+                                </AnimatePresence>
                             </div>
                         </div>
                     )}
