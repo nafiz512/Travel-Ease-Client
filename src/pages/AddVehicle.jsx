@@ -1,13 +1,14 @@
-import React from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { format } from "date-fns";
+import useAxios from "../hooks/useAxios";
 
 const AddVehicle = () => {
-    const { user } = useContext(AuthContext);
-
+    const { user, notifySuccess, notifyError } = useContext(AuthContext);
+    const axios = useAxios();
     const handleAddVehicle = (e) => {
         e.preventDefault();
+
         const form = e.target;
 
         const now = new Date();
@@ -26,23 +27,31 @@ const AddVehicle = () => {
             coverImage: form.coverImage.value,
             createdAt: formattedNow,
             updatedAt: formattedNow,
-            ratings: 0.0,
-            totalBookings: 0,
+            ratings: parseFloat((Math.random() * 4 + 1).toFixed(1)),
+            totalBookings: Math.floor(Math.random() * 191) + 10,
         };
-        console.log(newVehicle);
 
-        // Here you would typically send the data to your backend
-        // Example: await axios.post('/api/vehicles', newVehicle);
+        axios
+            .post("/addvehicle", newVehicle)
+            .then((data) => {
+                if (data.data.insertedId) {
+                    notifySuccess("successfully added vehicle");
+                    e.target.reset();
+                }
+            })
+            .catch((er) => {
+                notifyError(er.message);
+            });
     };
 
     return (
-        <div className="flex-1 ">
+        <div className="flex-1 mb-24">
             <div className="px-5 md:px-40  ">
                 <div className="flex flex-col items-center justify-center ">
-                    <p className="text-base-content mt-3 text-[32px] text-center font-bold leading-tight ">
+                    <p className="text-base-content mt-3 text-2xl md:text-4xl text-center font-bold leading-tight ">
                         Add a New Vehicle
                     </p>
-                    <div className="w-[370px] md:w-[900px] custom-shadow rounded-2xl mt-5 gap-4 px-6 py-2">
+                    <div className="w-[370px] md:w-[900px] shadow-base-content shadow-2xl rounded-2xl mt-5 gap-4 px-6 py-2">
                         <form onSubmit={handleAddVehicle}>
                             <div className=" flex gap-0 md:gap-10 flex-col md:flex-row pt-3">
                                 <div
@@ -138,7 +147,7 @@ const AddVehicle = () => {
                                             placeholder="Enter price per day"
                                             className="input input-bordered w-full bg-base-100 text-base-content placeholder-base-content/70"
                                             min="0"
-                                            step="0.01"
+                                            step="1"
                                             required
                                         />
                                     </label>

@@ -4,10 +4,16 @@ import { Edit3, Mail } from "lucide-react";
 import avater from "/avater.png";
 
 const MyProfile = () => {
-    const { user, updateUserProfile, setLoading, notifySuccess, notifyError } =
-        use(AuthContext);
+    const {
+        user,
+        updateUserProfile,
+        setUser,
+        setLoading,
+        notifySuccess,
+        notifyError,
+    } = use(AuthContext);
     const [isHidden, setHidden] = useState(true);
-    const { displayName, photoURL, email } = user || {};
+    const { displayName, photoURL, email } = user;
     // console.log(user);
 
     const handleUpdate = (e) => {
@@ -17,14 +23,16 @@ const MyProfile = () => {
 
         if (name === user?.displayName && photoUrl === user?.photoURL) return;
 
-        updateUserProfile(user, { displayName: name, photoURL: photoUrl })
+        updateUserProfile({ displayName: name, photoURL: photoUrl })
             .then(() => {
+                setUser({ ...user, displayName: name, photoURL: photoUrl });
                 notifySuccess("Profile update uccessfully");
-                setLoading(false);
+                e.target.reset();
             })
             .catch((er) => {
                 notifyError(er.message);
             });
+        setLoading(false);
     };
 
     return (

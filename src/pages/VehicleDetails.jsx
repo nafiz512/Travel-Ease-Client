@@ -1,21 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ScrollMotion from "../components/ScrollMotion";
+import { useParams } from "react-router";
+import useAxios from "../hooks/useAxios";
+import { use } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { format } from "date-fns";
 
 const VehicleDetails = () => {
-    // Main vehicle data
-    const vehicleData = {
-        vehicleName: "Toyota Corolla",
-        owner: "John Doe",
-        category: "Sedan",
-        pricePerDay: 70,
-        location: "Dhaka, Bangladesh",
-        availability: "Available",
-        images: "https://lh3.googleusercontent.com/aida-public/AB6AXuDT_AMYT2aIB0Heu9S2uPkzCIpbbROwQXXEd3BrhduvFIte_dzFMqaGM0ZFZDZYDVaa4_Np3H9n7Rez5yl99udHrYT1V9kzTDcSwACaEOG1eE348G7nB3hK5cd_RQCoMcr9YUclRi_jAoDEo7KSJAzEUBpkdRAnVQkJ6Yn3WJUWRLQM6Q1UZ41u54kcqhWKJ07D9oJUmm--UflYOCbHZz2FmorkD4E-if3dTgK7v6hZvFxk54cS1DzMkNaqSkX8U9J3zKmVAjDmXZo",
-        description:
-            "This sleek, modern sedan is perfect for city driving and weekend getaways. It features a spacious interior, advanced safety features, and excellent fuel efficiency. Enjoy a smooth and comfortable ride with all the amenities you need for a memorable trip.",
-        rating: 4.8,
-        trips: 120,
-    };
+    const { id } = useParams();
+    const axios = useAxios();
+    const { user, notifySuccess, notifyError } = use(AuthContext);
+    const [vehicleData, setData] = useState({});
+
+    useEffect(() => {
+        axios.get(`/vehicle/${id}`).then((data) => {
+            setData(data.data);
+            // console.log(data.data);
+        });
+    }, [axios, id]);
+
     // Status color mapping
     const statusColors = {
         Available: "bg-success/20",
@@ -46,8 +49,31 @@ const VehicleDetails = () => {
     ];
 
     const handleBookNow = () => {
-        console.log("Booking vehicle:", vehicleData.name);
-        // Add booking logic here
+        const now = new Date();
+        const formattedNow = format(now, "yyyy-MM-dd'T'HH:mm:ssXXX");
+        const newBooking = {
+            userEmail: user?.email,
+            vehicleId: vehicleData._id,
+            vehicleName: vehicleData.vehicleName,
+            coverImage: vehicleData.coverImage,
+            ownerEmail: vehicleData.userEmail,
+            bookingDate: formattedNow,
+            status: "Confirmed",
+            pricePerDay: vehicleData.pricePerDay,
+            durationDays: 3,
+            pickupLocation: "Banani, Dhaka",
+            dropLocation: "Dhanmondi, Dhaka",
+        };
+        axios
+            .post("/book-vehicle", newBooking)
+            .then((data) => {
+                if (data.data.insertedId) {
+                    notifySuccess("Booking successful");
+                }
+            })
+            .catch((er) => {
+                notifyError(er.message);
+            });
     };
 
     const handleSimilarVehicleClick = (vehicleId) => {
@@ -62,7 +88,7 @@ const VehicleDetails = () => {
                 {/* Left Content */}
                 <figure className="flex-1 md:flex-7/12">
                     <img
-                        src={vehicleData.images}
+                        src={vehicleData?.coverImage}
                         className="max-h-[400px] w-full rounded-2xl"
                         alt="vehicle image "
                     />
@@ -92,7 +118,7 @@ const VehicleDetails = () => {
                     <div className="flex flex-wrap gap-3 px-4 py-3">
                         <div className="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-base-300 p-3 items-start bg-base-100">
                             <p className="text-base-content tracking-light text-2xl font-bold leading-tight">
-                                {vehicleData.rating}
+                                {vehicleData.ratings}
                             </p>
                             <div className="flex items-center gap-2">
                                 <p className="text-base-content/70 text-sm font-normal leading-normal">
@@ -116,7 +142,8 @@ const VehicleDetails = () => {
                     <div className="flex px-4 py-3">
                         <button
                             onClick={handleBookNow}
-                            className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-primary text-primary-content text-base font-bold leading-normal tracking-[0.015em] hover:bg-primary-focus transition-colors"
+                            type="submit"
+                            className="btn btn-primary text-primary-content tracking-[0.015em] w-full mt-4"
                         >
                             <span className="truncate">Book Now</span>
                         </button>

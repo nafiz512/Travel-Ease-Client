@@ -1,10 +1,25 @@
 import React from "react";
-import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { format } from "date-fns";
+import { useParams } from "react-router";
+import useAxios from "../hooks/useAxios";
+import { useState } from "react";
+import { useEffect } from "react";
+import { use } from "react";
 
 const UpdateVehicle = () => {
-    const handleAddVehicle = (e) => {
+    const { notifySuccess, notifyError } = use(AuthContext);
+    const { id } = useParams();
+    const axios = useAxios();
+    const [vehicleData, setData] = useState({});
+
+    useEffect(() => {
+        axios.get(`/vehicle/${id}`).then((data) => {
+            setData(data.data);
+        });
+    }, [axios, id]);
+
+    const handleUpdateVehicle = (e) => {
         e.preventDefault();
         const form = e.target;
 
@@ -23,21 +38,27 @@ const UpdateVehicle = () => {
             coverImage: form.coverImage.value,
             updatedAt: formattedNow,
         };
-        console.log(newVehicle);
-
-        // Here you would typically send the data to your backend
-        // Example: await axios.post('/api/vehicles', newVehicle);
+        axios
+            .patch(`/vehicle/${id}`, newVehicle)
+            .then((data) => {
+                if (data.data.modifiedCount) {
+                    notifySuccess("Successfully Updated");
+                }
+            })
+            .catch((er) => {
+                notifyError(er.message);
+            });
     };
 
     return (
         <div className="flex-1 ">
             <div className="px-5 md:px-40  ">
                 <div className="flex flex-col items-center justify-center ">
-                    <p className="text-base-content mt-3 text-[32px] text-center font-bold leading-tight ">
-                        Add a New Vehicle
+                    <p className="text-base-content mt-3 text-2xl md:text-4xl text-center font-bold leading-tight ">
+                        Update Vehicle
                     </p>
                     <div className="w-[370px] md:w-[900px] custom-shadow rounded-2xl mt-5 gap-4 px-6 py-2">
-                        <form onSubmit={handleAddVehicle}>
+                        <form onSubmit={handleUpdateVehicle}>
                             <div className=" flex gap-0 md:gap-10 flex-col md:flex-row pt-3">
                                 <div
                                     className="flex-1/2 space-y-2
@@ -54,6 +75,9 @@ const UpdateVehicle = () => {
                                             placeholder="Enter vehicle name"
                                             className="input input-bordered w-full bg-base-100 text-base-content placeholder-base-content/70"
                                             required
+                                            defaultValue={
+                                                vehicleData.vehicleName
+                                            }
                                         />
                                     </label>
 
@@ -68,6 +92,7 @@ const UpdateVehicle = () => {
                                             placeholder="Owner full name"
                                             className="input input-bordered w-full bg-base-100 text-base-content placeholder-base-content/70"
                                             required
+                                            defaultValue={vehicleData.ownerName}
                                         />
                                     </label>
 
@@ -82,6 +107,9 @@ const UpdateVehicle = () => {
                                             placeholder="Enter image URL"
                                             className="input input-bordered w-full bg-base-100 text-base-content placeholder-base-content/70"
                                             required
+                                            defaultValue={
+                                                vehicleData.coverImage
+                                            }
                                         />
                                     </label>
 
@@ -94,10 +122,8 @@ const UpdateVehicle = () => {
                                             name="category"
                                             className="select select-bordered w-full bg-base-100 text-base-content"
                                             required
+                                            defaultValue={vehicleData.category}
                                         >
-                                            <option value="" disabled selected>
-                                                Select vehicle type
-                                            </option>
                                             <option value="Sedan">Sedan</option>
                                             <option value="SUV">SUV</option>
                                             <option value="Electric">
@@ -117,6 +143,7 @@ const UpdateVehicle = () => {
                                             placeholder="Enter total trips"
                                             className="input input-bordered w-full bg-base-100 text-base-content placeholder-base-content/70"
                                             required
+                                            defaultValue={vehicleData.trips}
                                         />
                                     </label>
                                 </div>
@@ -134,6 +161,9 @@ const UpdateVehicle = () => {
                                             min="0"
                                             step="0.01"
                                             required
+                                            defaultValue={
+                                                vehicleData.pricePerDay
+                                            }
                                         />
                                     </label>
 
@@ -143,6 +173,7 @@ const UpdateVehicle = () => {
                                             Location
                                         </p>
                                         <input
+                                            defaultValue={vehicleData.location}
                                             type="text"
                                             name="location"
                                             placeholder="Enter location"
@@ -159,6 +190,16 @@ const UpdateVehicle = () => {
                                             name="availability"
                                             className="select select-bordered w-full bg-base-100 text-base-content"
                                             required
+                                            value={
+                                                vehicleData.availability || ""
+                                            }
+                                            onChange={(e) =>
+                                                setData({
+                                                    ...vehicleData,
+                                                    availability:
+                                                        e.target.value,
+                                                })
+                                            }
                                         >
                                             <option value="Available">
                                                 Available
@@ -182,6 +223,9 @@ const UpdateVehicle = () => {
                                             placeholder="Enter vehicle description"
                                             className="textarea textarea-bordered w-full bg-base-100 text-base-content placeholder-base-content/70 h-30"
                                             required
+                                            defaultValue={
+                                                vehicleData.description
+                                            }
                                         />
                                     </label>
                                 </div>
@@ -193,9 +237,7 @@ const UpdateVehicle = () => {
                                     type="submit"
                                     className="btn btn-primary text-primary-content tracking-[0.015em] w-full mt-4"
                                 >
-                                    <span className="truncate">
-                                        Add Vehicle
-                                    </span>
+                                    <span className="truncate">Update</span>
                                 </button>
                             </div>
                         </form>

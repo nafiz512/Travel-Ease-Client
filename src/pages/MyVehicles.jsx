@@ -1,57 +1,39 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { NavLink } from "react-router";
+import useAxios from "../hooks/useAxios";
+import { use } from "react";
+import { AuthContext } from "../context/AuthContext";
+import LoadingEffect from "../components/LoadingEffect";
+import { SkeletonLoader } from "../components/SkeletonLoader ";
 
 const MyVehicles = () => {
-    // Table data object for iteration
+    const { user, notifySuccess, notifyError } = use(AuthContext);
+    const axios = useAxios();
+    const [isLoading, setIsLoading] = useState(true);
+    const [vehiclesData, setVehicleData] = useState([]);
     let vehicleId = null;
-    const vehiclesData = [
-        {
-            id: 1,
-            name: "2023 Sedan",
-            location: "San Francisco, CA",
-            price: "$50/day",
-            status: "Available",
-            statusType: "success",
-        },
-        {
-            id: 2,
-            name: "2022 SUV",
-            location: "Los Angeles, CA",
-            price: "$75/day",
-            status: "Booked",
-            statusType: "warning",
-        },
-        {
-            id: 3,
-            name: "2021 Compact",
-            location: "San Diego, CA",
-            price: "$40/day",
-            status: "Available",
-            statusType: "success",
-        },
-        {
-            id: 4,
-            name: "2024 Electric",
-            location: "San Jose, CA",
-            price: "$90/day",
-            status: "Maintenance",
-            statusType: "error",
-        },
-    ];
 
-    // Status color mapping
-    const statusColors = {
+    useEffect(() => {
+        setIsLoading(true);
+        axios
+            .get(`/allvehicles?email=${user?.email}`)
+            .then((data) => {
+                setVehicleData(data.data);
+            })
+            .catch((error) => {
+                notifyError(error.message);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+    }, [axios]);
+
+    // availability color mapping
+    const availabilityColors = {
         available: "bg-success/20",
         booked: "bg-warning/20",
         maintenance: "bg-error/20",
-        success: "bg-success/20",
-        warning: "bg-warning/20",
-        error: "bg-error/20",
-    };
-
-    const handleView = (vehicleId) => {
-        console.log("View vehicle:", vehicleId);
-        // Add view logic here
     };
 
     const handleOpenModal = (id) => {
@@ -61,16 +43,36 @@ const MyVehicles = () => {
     };
     const handleDelete = () => {
         if (vehicleId) {
-            console.log("going to delete the vehicle", vehicleId);
+            axios
+                .delete(`/vehicle/${vehicleId}`)
+                .then((data) => {
+                    if (data.data.deletedCount) {
+                        notifySuccess("Deleted Successfully");
+                        const curentVehicles = vehiclesData.filter(
+                            (vehicle) => vehicle._id != vehicleId
+                        );
+                        setVehicleData(curentVehicles);
+                    }
+                })
+                .catch((er) => {
+                    notifyError(er.message);
+                });
         }
     };
+    if (isLoading)
+        return (
+            <div className="px-4 md:px-40">
+                <LoadingEffect></LoadingEffect>
+                <SkeletonLoader></SkeletonLoader>
+            </div>
+        );
 
     return (
         <div className="px-1 md:px-40 flex flex-1 justify-center py-5">
             <div className="layout-content-container flex flex-col max-w-[960px] flex-1 w-full">
                 {/* Header */}
                 <div className="flex flex-wrap justify-between gap-3 p-4">
-                    <p className="text-base-content tracking-light text-2xl md:text-[32px] font-bold leading-tight min-w-72">
+                    <p className="text-base-content tracking-light text-2xl md:text-4xl font-bold leading-tight min-w-72">
                         My Vehicles
                     </p>
                 </div>
@@ -109,17 +111,17 @@ const MyVehicles = () => {
                         <table className="flex-1 w-full">
                             <thead>
                                 <tr className="bg-base-200">
-                                    <th className="px-4 py-3 text-left text-base-content text-sm font-medium  w-[400px]">
+                                    <th className="px-4 py-3 text-left text-base-content text-sm font-medium  w-[250px]">
                                         Vehicle
                                     </th>
-                                    <th className="px-4 py-3 text-left text-base-content text-sm font-medium  w-[400px]">
+                                    <th className="px-4 py-3 text-left text-base-content text-sm font-medium  w-[200px]">
                                         Location
                                     </th>
-                                    <th className="px-4 py-3 text-left text-base-content text-sm font-medium  w-[400px]">
+                                    <th className="px-4 py-3 text-left text-base-content text-sm font-medium  w-[150px]">
                                         Price
                                     </th>
                                     <th className="px-4 py-3 text-left text-base-content text-sm font-medium  w-60">
-                                        Status
+                                        status
                                     </th>
                                     <th className="px-4 py-3 text-left text-base-content text-sm font-medium  w-60">
                                         Actions
@@ -129,12 +131,12 @@ const MyVehicles = () => {
                             <tbody>
                                 {vehiclesData.map((vehicle) => (
                                     <tr
-                                        key={vehicle.id}
+                                        key={vehicle._id}
                                         className="border-t border-base-300 hover:bg-base-200/50 transition-colors"
                                     >
                                         {/* Vehicle Name */}
                                         <td className="h-[72px] px-4 py-2 text-base-content text-sm font-normal leading-normal">
-                                            {vehicle.name}
+                                            {vehicle.vehicleName}
                                         </td>
 
                                         {/* Location */}
@@ -144,23 +146,23 @@ const MyVehicles = () => {
 
                                         {/* Price */}
                                         <td className="h-[72px] px-4 py-2 text-base-content/70 text-sm font-normal leading-normal">
-                                            {vehicle.price}
+                                            {vehicle.pricePerDay}
                                         </td>
 
-                                        {/* Status */}
+                                        {/* availability */}
                                         <td className="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
                                             <button
                                                 className={`flex min-w-[84px] max-w-[480px] cursor-default items-center justify-center rounded-sm shadow-xl h-8 px-4 text-sm font-medium leading-normal w-full ${
-                                                    statusColors[
-                                                        vehicle.statusType
+                                                    availabilityColors[
+                                                        vehicle.availabilityType
                                                     ] ||
-                                                    statusColors[
-                                                        vehicle.status.toLowerCase()
+                                                    availabilityColors[
+                                                        vehicle.availability.toLowerCase()
                                                     ]
                                                 }`}
                                             >
                                                 <span className="truncate">
-                                                    {vehicle.status}
+                                                    {vehicle.availability}
                                                 </span>
                                             </button>
                                         </td>
@@ -168,35 +170,30 @@ const MyVehicles = () => {
                                         {/* Actions */}
                                         <td className="h-[72px] px-4 py-2 text-base-content/70 text-sm font-bold leading-normal tracking-[0.015em]">
                                             <div className="flex gap-3">
-                                                <button
-                                                    onClick={() =>
-                                                        handleView(vehicle.id)
-                                                    }
-                                                    className="text-primary hover:text-primary-focus hover:underline transition-colors"
-                                                >
-                                                    View
-                                                </button>
-                                                <span className="text-base-300">
-                                                    |
-                                                </span>
                                                 <NavLink
-                                                    to={`/update-vehicle/${vehicle.id}`}
+                                                    to={`/vehicle-details/${vehicle._id}`}
                                                 >
-                                                    <button className="text-secondary hover:text-secondary-focus hover:underline transition-colors">
+                                                    <button className="text-primary px-3 py-2 rounded-sm bg-blue-200 hover:text-primary-focus hover:cursor-pointer transition-colors">
+                                                        View
+                                                    </button>
+                                                </NavLink>
+                                                <span className="text-base-300"></span>
+                                                <NavLink
+                                                    to={`/update-vehicle/${vehicle._id}`}
+                                                >
+                                                    <button className="text-secondary px-3 py-2 rounded-sm bg-green-200 hover:text-secondary-focus hover:cursor-pointer transition-colors">
                                                         Update
                                                     </button>
                                                 </NavLink>
 
-                                                <span className="text-base-300">
-                                                    |
-                                                </span>
+                                                <span className="text-base-300"></span>
                                                 <button
                                                     onClick={() =>
                                                         handleOpenModal(
-                                                            vehicle.id
+                                                            vehicle._id
                                                         )
                                                     }
-                                                    className="text-error hover:text-error-focus hover:underline transition-colors"
+                                                    className="text-error px-3 py-2 rounded-sm bg-red-200 hover:text-error-focus hover:cursor-pointer transition-colors"
                                                 >
                                                     Delete
                                                 </button>
@@ -239,7 +236,8 @@ const MyVehicles = () => {
                                 <div className="stat-value text-success">
                                     {
                                         vehiclesData.filter(
-                                            (v) => v.status === "Available"
+                                            (v) =>
+                                                v.availability === "Available"
                                         ).length
                                     }
                                 </div>
@@ -251,7 +249,7 @@ const MyVehicles = () => {
                                 <div className="stat-value text-warning">
                                     {
                                         vehiclesData.filter(
-                                            (v) => v.status === "Booked"
+                                            (v) => v.availability === "Booked"
                                         ).length
                                     }
                                 </div>
@@ -263,7 +261,8 @@ const MyVehicles = () => {
                                 <div className="stat-value text-error">
                                     {
                                         vehiclesData.filter(
-                                            (v) => v.status === "Maintenance"
+                                            (v) =>
+                                                v.availability === "Maintenance"
                                         ).length
                                     }
                                 </div>
