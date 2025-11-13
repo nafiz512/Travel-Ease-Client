@@ -5,32 +5,29 @@ const TopRatedAndOwners = ({ topVehicles }) => {
     if (!topVehicles.length)
         return (
             <div className=" py-10 px-6 md:px-20">
-                <h2 className="text-2xl font-bold leading-tight tracking-tight px-4 pb-3 pt-5">
+                <h2 className="text-2xl font-bold  px-4 pb-3 pt-5">
                     Top Rated Vehicle
                 </h2>
                 <SkeletonLoader></SkeletonLoader>
             </div>
         );
     return (
-        <div className="min-h-screen bg-base-100 text-base-content font-sans py-5 mb-3 px-6 md:px-20">
+        <div className="min-h-screen w-full bg-base-100 text-base-content font-sans py-5 mb-3 px-6 md:px-20">
             {/* Top Categories Section */}
-            <section className="mb-8">
-                <h2 className="text-2xl font-bold leading-tight tracking-tight px-4 pb-3 pt-5">
+            <section className="mb-8 w-full">
+                <h2 className="text-2xl font-bold  px-4 pb-3 pt-5">
                     Top Rated Vehicle
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-4">
+                <div className="flex flex-wrap justify-between w-full gap-3 p-4">
                     {topVehicles.map((vehicle) => (
-                        <VehicleCard
-                            key={vehicle._id}
-                            vehicle={vehicle}
-                        ></VehicleCard>
+                        <VehicleCard key={vehicle._id} vehicle={vehicle} />
                     ))}
                 </div>
             </section>
 
             {/* Featured Owners Section */}
             <section>
-                <h2 className="text-2xl font-bold leading-tight tracking-tight px-4 pb-3 pt-5">
+                <h2 className="text-2xl font-bold  px-4 pb-3 pt-5">
                     Featured Owners
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 p-4">

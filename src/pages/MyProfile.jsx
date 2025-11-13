@@ -37,7 +37,7 @@ const MyProfile = () => {
 
     return (
         <div className="min-h-screen bg-base-100 flex items-center justify-center px-6 py-10 transition-all duration-300">
-            <div className=" custom-shadow rounded-2xl">
+            <div className=" shadow-2xl rounded-2xl">
                 <div className="w-full max-w-3xl bg-base-100 border border-base-300 rounded-2xl p-6 md:p-10 flex flex-col md:flex-row gap-8 ">
                     {/* Profile Image */}
                     <div className="flex-1 flex items-center justify-center">

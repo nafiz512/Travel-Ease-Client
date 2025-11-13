@@ -28,28 +28,6 @@ const VehicleDetails = () => {
         Maintenance: "bg-error/20",
     };
 
-    // Similar vehicles data
-    const similarVehicles = [
-        {
-            id: 1,
-            name: "Compact Sedan",
-            price: "$45/day",
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBTXEOyOyVdRVDDYjEh2aPj81LJU1Xl78YBmTGVXOqaZnO51nZrMNp9RFXF2__m31hNVpQcUlt85DkGYrPhINerk71EZ-ukbY3W8hBLeCLjBUxsUMlZFsJqWMzfTC9196dJ6fyO5HzLk2UdR8P6Gw3--FhE97-hvU3hx-MmMrEedB8lFc2Ey2wk-4URkbA_xTmutTXXtHYd0zF4thC08JQZVOVQyw4MRzW1xBzD_aqmBcNpYUPlAbqkatzQxCbBH6rKVFzFexaEulg",
-        },
-        {
-            id: 2,
-            name: "SUV",
-            price: "$60/day",
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD9np_BPnYniusvIgyQ48H95uiImQe0DhgAGWcdFePes4BBBE7fmCg-ceJYSIke9gQT4rIjXt1OmhlECYl1RMaX8gtiVbk-u-HRq90diz53PGhiXjGmJ0e_zyAaV4UOs8oyX_NeiChEpi01IjucZTVTuMz52v8tZQHQjwbcf1yxAYYlHc-oMo-0KVUd-HfhjIsFYP12An49qEMhD4UrkeRlUvCg8aiYebowlPRCuYJEZvq7BLKiMhS-agmWt2SJnNI5xIx_Uhy00WM",
-        },
-        {
-            id: 3,
-            name: "Luxury Sedan",
-            price: "$85/day",
-            image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDBd_77R-G5jl171Oj-eWIO_7ww65LY_P2lVAgXyV1EY9ftD_x_a6lGiZQqNgsnl3mMVtd5Lko0nPgFLko4-tNlZ1uzU-YPZXeE3_PwVlLJY6Os3O685jhfVgtsRkYlY6VyFoREGUJ0p10i_fc2xC3dEma0zdOIImUZ_GUltMnXLJvSL5k7-Ol-vTGNL2etNEOO2O8VXCsrYoS5H00KWZJ0y9cF89FIy183mi19ptwgdF9EIzYJQQLWylbjgQkWy6DORuSWh647LLc",
-        },
-    ];
-
     const handleBookNow = () => {
         const now = new Date();
         const formattedNow = format(now, "yyyy-MM-dd'T'HH:mm:ssXXX");
@@ -76,11 +54,6 @@ const VehicleDetails = () => {
             .catch((er) => {
                 notifyError(er.message);
             });
-    };
-
-    const handleSimilarVehicleClick = (vehicleId) => {
-        console.log("View similar vehicle:", vehicleId);
-        // Add navigation logic here
     };
 
     return (
@@ -161,38 +134,6 @@ const VehicleDetails = () => {
                 <p className=" text-base-content/80 font-normal leading-normal pb-3 pt-1 px-4">
                     {vehicleData.description}
                 </p>
-            </div>
-            {/* Similar Vehicles */}
-            <h2 className="text-base-content text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-                Similar vehicles
-            </h2>
-            <div className="flex ">
-                <div className="flex flex-col md:flex-row items-stretch p-4 gap-3">
-                    {similarVehicles.map((vehicle) => (
-                        <div
-                            key={vehicle.id}
-                            onClick={() =>
-                                handleSimilarVehicleClick(vehicle.id)
-                            }
-                            className="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-40 cursor-pointer hover:shadow-lg transition-shadow"
-                        >
-                            <div
-                                className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex flex-col"
-                                style={{
-                                    backgroundImage: `url("${vehicle.image}")`,
-                                }}
-                            />
-                            <div>
-                                <p className="text-base-content text-base font-medium leading-normal">
-                                    {vehicle.name}
-                                </p>
-                                <p className="text-base-content/70 text-sm font-normal leading-normal">
-                                    {vehicle.price}
-                                </p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
             </div>
         </div>
     );

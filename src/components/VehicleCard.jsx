@@ -7,7 +7,7 @@ const VehicleCard = ({ vehicle }) => {
     return (
         <div
             key={vehicle._id}
-            className="card bg-base-200 max-w-80 shadow-md flex flex-col justify-between hover:shadow-lg hover:shadow-base-content transition-all hover:scale-105"
+            className="card bg-base-200 min-w-70 max-w-80 shadow-md flex flex-col justify-between hover:shadow-lg hover:shadow-base-content transition-all hover:scale-105"
         >
             <figure>
                 <img
