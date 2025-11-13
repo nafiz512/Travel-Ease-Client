@@ -27,11 +27,16 @@ const Hero = () => {
                             Explore, book, and manage vehicles effortlessly.
                         </p>
                         <div className="flex gap-3 justify-center">
-                            <button className="btn btn-outline btn-primary">
-                                <NavLink to={"/allvehicles"}>
-                                    Explore All Vehicles
-                                </NavLink>
-                            </button>
+                            <NavLink to={"/allvehicles"}>
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary text-primary-content tracking-[0.015em] w-full mt-4"
+                                >
+                                    <span className="truncate">
+                                        Explore All Vehicles
+                                    </span>
+                                </button>
+                            </NavLink>
                         </div>
                     </div>
                 </div>

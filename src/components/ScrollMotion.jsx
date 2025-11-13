@@ -11,7 +11,7 @@ const ScrollMotion = () => {
                 originX: 0,
                 zIndex: 1000,
             }}
-            className=" bg-blue-500 top-18 left-0 right-0 h-1 fixed "
+            className=" bg-blue-500 top-17 left-0 right-0 h-1 fixed "
         />
     );
 };
