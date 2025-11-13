@@ -8,10 +8,12 @@ import { AuthContext } from "../context/AuthContext";
 const Signup = () => {
     const [error, setError] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const {
         signUpUser,
         updateUserProfile,
         notifySuccess,
+        setUser,
         notifyError,
         setLoading,
         googleSignIn,
@@ -44,12 +46,20 @@ const Signup = () => {
         }
         signUpUser(email, password)
             .then((res) => {
-                updateUserProfile(res.user, {
-                    displayName: name,
-                    photoURL: photoUrl,
-                }).catch((error) => {
-                    notifyError(error.message);
-                });
+                updateUserProfile({ displayName: name, photoURL: photoUrl })
+                    .then(() => {
+                        setUser({
+                            ...res.user,
+                            displayName: name,
+                            photoURL: photoUrl,
+                        });
+                        notifySuccess("Profile update uccessfully");
+                        setLoading(false);
+                    })
+                    .catch((er) => {
+                        notifyError(er.message);
+                    });
+
                 e.target.reset();
                 navigate("/");
                 notifySuccess("Sign-up successful");
@@ -62,6 +72,7 @@ const Signup = () => {
     };
 
     const handleGoogleSignIn = () => {
+        //setLoading(true);
         googleSignIn()
             .then((res) => {
                 notifySuccess("Log in Successful");
@@ -78,6 +89,7 @@ const Signup = () => {
                 notifyError(error.message);
                 setError(error.message);
             });
+        //setLoading(false);
     };
     return (
         <div className="w-11/12 md:w-10/12 mx-auto min-h-[calc(100vh-270px)] pb-15 pt-5 ">
