@@ -10,6 +10,10 @@ import MyBookings from "../pages/MyBookings";
 import Login from "../pages/Login";
 import ResetPassword from "../pages/ResetPassword";
 import Signup from "../pages/Signup";
+import VehicleDetails from "../pages/VehicleDetails";
+import UpdateVehicle from "../pages/UpdateVehicle";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import NotFoundPage from "../pages/NotFoundPage";
 
 const Routes = createBrowserRouter([
     {
@@ -27,19 +31,35 @@ const Routes = createBrowserRouter([
             },
             {
                 path: "/myprofile",
-                element: <MyProfile></MyProfile>,
+                element: (
+                    <PrivateRoute>
+                        <MyProfile></MyProfile>
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/myvehiclesicle",
-                element: <MyVehicles></MyVehicles>,
+                element: (
+                    <PrivateRoute>
+                        <MyVehicles></MyVehicles>
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/mybookings",
-                element: <MyBookings></MyBookings>,
+                element: (
+                    <PrivateRoute>
+                        <MyBookings></MyBookings>
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/addvehicle",
-                element: <AddVehicle></AddVehicle>,
+                element: (
+                    <PrivateRoute>
+                        <AddVehicle></AddVehicle>
+                    </PrivateRoute>
+                ),
             },
             {
                 path: "/login",
@@ -53,7 +73,27 @@ const Routes = createBrowserRouter([
                 path: "/reset-password",
                 element: <ResetPassword></ResetPassword>,
             },
+            {
+                path: "/vehicle-details/:id",
+                element: (
+                    <PrivateRoute>
+                        <VehicleDetails></VehicleDetails>
+                    </PrivateRoute>
+                ),
+            },
+            {
+                path: "/update-vehicle/:id",
+                element: (
+                    <PrivateRoute>
+                        <UpdateVehicle></UpdateVehicle>
+                    </PrivateRoute>
+                ),
+            },
         ],
+    },
+    {
+        path: "/*",
+        element: <NotFoundPage></NotFoundPage>,
     },
 ]);
 
