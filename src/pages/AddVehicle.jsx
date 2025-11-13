@@ -1,11 +1,13 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { format } from "date-fns";
-import useAxios from "../hooks/useAxios";
+// import useAxios from "../hooks/useAxios";
+import useSecureAxios from "../hooks/useSecureAxios";
 
 const AddVehicle = () => {
     const { user, notifySuccess, notifyError } = useContext(AuthContext);
-    const axios = useAxios();
+    // const axios = useAxios();
+    const axios = useSecureAxios();
     const handleAddVehicle = (e) => {
         e.preventDefault();
 

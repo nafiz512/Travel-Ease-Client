@@ -6,11 +6,15 @@ import useAxios from "../hooks/useAxios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { use } from "react";
+import { User } from "lucide-react";
+import useSecureAxios from "../hooks/useSecureAxios";
 
 const UpdateVehicle = () => {
+    const { user } = use(AuthContext);
     const { notifySuccess, notifyError } = use(AuthContext);
     const { id } = useParams();
-    const axios = useAxios();
+    // const axios = useAxios();
+    const axios = useSecureAxios();
     const [vehicleData, setData] = useState({});
 
     useEffect(() => {
@@ -39,7 +43,7 @@ const UpdateVehicle = () => {
             updatedAt: formattedNow,
         };
         axios
-            .patch(`/vehicle/${id}`, newVehicle)
+            .patch(`/vehicle/${id}?email=${user?.email}`, newVehicle)
             .then((data) => {
                 if (data.data.modifiedCount) {
                     notifySuccess("Successfully Updated");

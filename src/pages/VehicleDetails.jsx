@@ -5,10 +5,12 @@ import useAxios from "../hooks/useAxios";
 import { use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { format } from "date-fns";
+import useSecureAxios from "../hooks/useSecureAxios";
 
 const VehicleDetails = () => {
     const { id } = useParams();
-    const axios = useAxios();
+    // const axios = useAxios();
+    const axios = useSecureAxios();
     const { user, notifySuccess, notifyError } = use(AuthContext);
     const [vehicleData, setData] = useState({});
 

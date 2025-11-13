@@ -5,11 +5,13 @@ import useAxios from "../hooks/useAxios";
 import { use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import LoadingEffect from "../components/LoadingEffect";
-import { SkeletonLoader } from "../components/SkeletonLoader ";
+import { SkeletonLoader } from "../components/SkeletonLoader";
+import useSecureAxios from "../hooks/useSecureAxios";
 
 const MyVehicles = () => {
     const { user, notifySuccess, notifyError } = use(AuthContext);
-    const axios = useAxios();
+    // const axios = useAxios();
+    const axios = useSecureAxios();
     const [isLoading, setIsLoading] = useState(true);
     const [vehiclesData, setVehicleData] = useState([]);
     let vehicleId = null;
@@ -17,17 +19,17 @@ const MyVehicles = () => {
     useEffect(() => {
         setIsLoading(true);
         axios
-            .get(`/allvehicles?email=${user?.email}`)
+            .get(`/myvehicles?email=${user?.email}`)
             .then((data) => {
                 setVehicleData(data.data);
             })
-            .catch((error) => {
-                notifyError(error.message);
-            })
+            // .catch((error) => {
+            //     notifyError(error.message);
+            // })
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [axios]);
+    }, [axios, notifyError, user?.email]);
 
     // availability color mapping
     const availabilityColors = {
@@ -44,7 +46,7 @@ const MyVehicles = () => {
     const handleDelete = () => {
         if (vehicleId) {
             axios
-                .delete(`/vehicle/${vehicleId}`)
+                .delete(`/vehicle/${vehicleId}?email=${user?.email}`)
                 .then((data) => {
                     if (data.data.deletedCount) {
                         notifySuccess("Deleted Successfully");

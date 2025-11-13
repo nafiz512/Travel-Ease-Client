@@ -5,7 +5,7 @@ import { NavLink } from "react-router";
 import { BsQuestionDiamondFill } from "react-icons/bs";
 import { AuthContext } from "../context/AuthContext";
 import LoadingEffect from "../components/LoadingEffect";
-import { SkeletonLoader } from "../components/SkeletonLoader ";
+import { SkeletonLoader } from "../components/SkeletonLoader";
 import VehicleCard from "../components/VehicleCard";
 
 const AllVehicles = () => {

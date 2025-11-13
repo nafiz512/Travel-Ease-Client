@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 
 const axiosfetch = axios.create({
-    baseURL: "http://192.168.1.104:5000",
+    baseURL: "https://travel-ease-server-lovat.vercel.app",
 });
 const useAxios = () => {
     return axiosfetch;

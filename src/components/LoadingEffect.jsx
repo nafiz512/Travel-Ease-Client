@@ -1,5 +1,4 @@
 import React from "react";
-import { SkeletonLoader } from "./SkeletonLoader ";
 
 const LoadingEffect = () => {
     return (

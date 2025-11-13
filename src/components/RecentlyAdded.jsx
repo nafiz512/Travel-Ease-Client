@@ -1,4 +1,4 @@
-import { SkeletonLoader } from "./SkeletonLoader ";
+import { SkeletonLoader } from "./SkeletonLoader";
 import VehicleCard from "./VehicleCard";
 const RecentlyAdded = ({ vehicles }) => {
     if (!vehicles.length)

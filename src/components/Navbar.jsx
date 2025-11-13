@@ -42,7 +42,7 @@ const Navbar = () => {
             {[
                 { path: "/", label: "Home" },
                 { path: "/allvehicles", label: "All Vehicles" },
-                { path: "/myvehiclesicle", label: "My Vehicles" },
+                { path: "/myvehicle", label: "My Vehicles" },
                 { path: "/mybookings", label: "My Bookings" },
                 { path: "/addvehicle", label: "Add Vehicle" },
             ].map((link) => (

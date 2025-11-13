@@ -6,13 +6,15 @@ import { use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { NavLink } from "react-router";
 import LoadingEffect from "../components/LoadingEffect";
-import { SkeletonLoader } from "../components/SkeletonLoader ";
+import { SkeletonLoader } from "../components/SkeletonLoader";
+import useSecureAxios from "../hooks/useSecureAxios";
 
 const MyBookings = () => {
     const { user } = use(AuthContext);
     const [bookingsData, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // Add loading state
-    const axios = useAxios();
+    // const axios = useAxios();
+    const axios = useSecureAxios();
 
     useEffect(() => {
         setIsLoading(true); // Start loading

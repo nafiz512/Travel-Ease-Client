@@ -6,12 +6,14 @@ import AboutSection from "../components/AboutSection";
 import ScrollMotion from "../components/ScrollMotion";
 import LoadingEffect from "../components/LoadingEffect";
 import useAxios from "../hooks/useAxios";
+import useSectureAxios from "../hooks/useSecureAxios";
 
 const Home = () => {
     const [loading, setLoading] = useState(true);
     const [vehicles, setVehicles] = useState([]);
     const [topVehicles, setTopVehicles] = useState([]);
-    const axios = useAxios();
+    // const axios = useAxios();
+    const axios = useSectureAxios();
 
     useEffect(() => {
         const fetchData = async () => {

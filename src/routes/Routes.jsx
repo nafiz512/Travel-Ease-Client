@@ -38,7 +38,7 @@ const Routes = createBrowserRouter([
                 ),
             },
             {
-                path: "/myvehiclesicle",
+                path: "/myvehicle",
                 element: (
                     <PrivateRoute>
                         <MyVehicles></MyVehicles>
