@@ -31,7 +31,7 @@ const AllVehicles = () => {
                 setLoading(false);
                 setIsLoading(false);
             });
-    }, [axios]);
+    }, [axios, setLoading]);
 
     // Vehicles data
     const categories = [
