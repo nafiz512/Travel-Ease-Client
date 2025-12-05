@@ -36,16 +36,23 @@ const Navbar = () => {
                 notifyError("Sign-out Unsuccessful");
             });
     };
+    const baseLinks = [
+        { path: "/", label: "Home" },
+        { path: "/allvehicles", label: "All Vehicles" },
+        { path: "/about", label: "About" },
+        { path: "/contact", label: "Contact" },
+    ];
+
+    const authenticatedLinks = [
+        { path: "/myvehicle", label: "My Vehicles" },
+        { path: "/mybookings", label: "My Bookings" },
+        { path: "/addvehicle", label: "Add Vehicle" },
+    ];
+    const allLinks = user ? [...baseLinks, ...authenticatedLinks] : baseLinks;
 
     const links = (
         <>
-            {[
-                { path: "/", label: "Home" },
-                { path: "/allvehicles", label: "All Vehicles" },
-                { path: "/myvehicle", label: "My Vehicles" },
-                { path: "/mybookings", label: "My Bookings" },
-                { path: "/addvehicle", label: "Add Vehicle" },
-            ].map((link) => (
+            {allLinks.map((link) => (
                 <li key={link.path} className="font-medium relative">
                     <NavLink
                         to={link.path}
@@ -58,7 +65,7 @@ const Navbar = () => {
                         }
                     >
                         {({ isActive }) => (
-                            <>
+                            <span className="group relative">
                                 {link.label}
                                 <div
                                     className={`absolute left-0 bottom-0 h-0.5 bg-primary rounded-full transition-all duration-300 ${
@@ -67,7 +74,7 @@ const Navbar = () => {
                                             : "w-0 group-hover:w-full"
                                     }`}
                                 ></div>
-                            </>
+                            </span>
                         )}
                     </NavLink>
                 </li>
@@ -77,7 +84,7 @@ const Navbar = () => {
 
     return (
         <div>
-            <div className="mx-auto navbar shadow rounded-md">
+            <div className=" sm:px-[8%] navbar shadow rounded-md">
                 <div className="navbar-start ">
                     <div className="dropdown">
                         <div
@@ -143,18 +150,18 @@ const Navbar = () => {
                     {!user ? (
                         <div className="space-x-2 py-2 flex">
                             <NavLink to={"/login"}>
-                                <button className="btn bg-white text-black h-9 rounded-3xl">
+                                <button className="btn bg-blue-500 text-white h-9 rounded-3xl">
                                     Log in
                                 </button>
                             </NavLink>
-                            <NavLink
+                            {/* <NavLink
                                 to={"/signup"}
                                 className={`hidden sm:flex`}
                             >
                                 <button className="btn h-9 border bg-accent rounded-3xl text-gray-50 ">
                                     Sign up
                                 </button>
-                            </NavLink>
+                            </NavLink> */}
                         </div>
                     ) : (
                         <div>

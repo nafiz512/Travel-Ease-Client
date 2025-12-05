@@ -14,6 +14,8 @@ import VehicleDetails from "../pages/VehicleDetails";
 import UpdateVehicle from "../pages/UpdateVehicle";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import NotFoundPage from "../pages/NotFoundPage";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
 
 const Routes = createBrowserRouter([
     {
@@ -70,16 +72,20 @@ const Routes = createBrowserRouter([
                 element: <Signup></Signup>,
             },
             {
+                path: "/about",
+                element: <About></About>,
+            },
+            {
+                path: "/contact",
+                element: <Contact></Contact>,
+            },
+            {
                 path: "/reset-password",
                 element: <ResetPassword></ResetPassword>,
             },
             {
                 path: "/vehicle-details/:id",
-                element: (
-                    <PrivateRoute>
-                        <VehicleDetails></VehicleDetails>
-                    </PrivateRoute>
-                ),
+                element: <VehicleDetails></VehicleDetails>,
             },
             {
                 path: "/update-vehicle/:id",

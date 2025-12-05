@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ScrollMotion from "../components/ScrollMotion";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useAxios from "../hooks/useAxios";
 import { use } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { format } from "date-fns";
-import useSecureAxios from "../hooks/useSecureAxios";
 
 const VehicleDetails = () => {
     const { id } = useParams();
-    // const axios = useAxios();
-    const axios = useSecureAxios();
+    const axios = useAxios();
+    const navigate = useNavigate();
     const { user, notifySuccess, notifyError } = use(AuthContext);
     const [vehicleData, setData] = useState({});
 
@@ -29,6 +28,9 @@ const VehicleDetails = () => {
     };
 
     const handleBookNow = () => {
+        if (!user) {
+            return navigate("/login");
+        }
         const now = new Date();
         const formattedNow = format(now, "yyyy-MM-dd'T'HH:mm:ssXXX");
         const newBooking = {
@@ -57,7 +59,7 @@ const VehicleDetails = () => {
     };
 
     return (
-        <div className="md:py-10 py-3 px-6 md:px-20 ">
+        <div className="px-[8%] mt-1">
             <ScrollMotion></ScrollMotion>
             <div className=" flex-1 flex gap-3 md:gap-5 md:flex-row flex-col  w-full ">
                 {/* Left Content */}
@@ -69,7 +71,7 @@ const VehicleDetails = () => {
                     />
                 </figure>
                 {/* Right Sidebar */}
-                <div className="custom-shadow layout-content-container rounded-2xl flex-1 md:flex-5/12">
+                <div className="shadow-xl layout-content-container rounded-2xl flex-1 md:flex-5/12">
                     <h1 className="text-base-content text-[22px] font-bold  px-4 text-left pt-4 pb-1">
                         {vehicleData.vehicleName}
                     </h1>
@@ -128,10 +130,10 @@ const VehicleDetails = () => {
 
             {/* About Section */}
             <div>
-                <h2 className="text-base-content text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-                    About this vehicle
+                <h2 className="text-base-content text-[22px] font-bold leading-tight tracking-[-0.015em]  pb-3 pt-5">
+                    Description
                 </h2>
-                <p className=" text-base-content/80 font-normal leading-normal pb-3 pt-1 px-4">
+                <p className=" text-base-content/80 font-normal leading-normal pb-3 pt-1 ">
                     {vehicleData.description}
                 </p>
             </div>

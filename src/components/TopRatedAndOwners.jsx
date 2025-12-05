@@ -4,21 +4,17 @@ import VehicleCard from "./VehicleCard";
 const TopRatedAndOwners = ({ topVehicles }) => {
     if (!topVehicles.length)
         return (
-            <div className=" py-10 px-6 md:px-20">
-                <h2 className="text-2xl font-bold  px-4 pb-3 pt-5">
-                    Top Rated Vehicle
-                </h2>
+            <div className="">
+                <h2 className="text-2xl font-bold">Top Rated Vehicle</h2>
                 <SkeletonLoader></SkeletonLoader>
             </div>
         );
     return (
-        <div className="min-h-screen w-full bg-base-100 text-base-content font-sans py-5 mb-3 px-6 md:px-20">
+        <div className="min-h-screen w-full bg-base-100 text-base-content ">
             {/* Top Categories Section */}
-            <section className="mb-8 w-full">
-                <h2 className="text-2xl font-bold  px-4 pb-3 pt-5">
-                    Top Rated Vehicle
-                </h2>
-                <div className="flex flex-wrap justify-between w-full gap-3 p-4">
+            <section className=" w-full">
+                <h2 className="text-2xl font-bold">Top Rated Vehicle</h2>
+                <div className="flex flex-wrap justify-between w-full">
                     {topVehicles.map((vehicle) => (
                         <VehicleCard key={vehicle._id} vehicle={vehicle} />
                     ))}
@@ -27,14 +23,12 @@ const TopRatedAndOwners = ({ topVehicles }) => {
 
             {/* Featured Owners Section */}
             <section>
-                <h2 className="text-2xl font-bold  px-4 pb-3 pt-5">
-                    Featured Owners
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 p-4">
+                <h2 className="text-2xl font-bold">Featured Owners</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ">
                     {owners.map((owner) => (
                         <div
                             key={owner.id}
-                            className="flex flex-col gap-3 text-center items-center pb-3"
+                            className="flex flex-col gap-3 text-center items-center "
                         >
                             <div className="px-4">
                                 <div
@@ -67,18 +61,18 @@ const owners = [
         id: 1,
         name: "Sophia Carter",
         rating: "4.8 stars",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDFLEK9-vMYJOZcYQoriB7HXlElgFWHE9vTReBZVpMIFqREx1hVki7oNNmTPb7V1q4INMtuF7jPbPmstXvIRay9oq_fcOfj8NjkrZqzIu-mt3Eh40i0wsqFfC2jwt5gr2CY1AvZi842En3-4eJL452ymSRoD7NSRcl_Ul8mfrg1JYR0D8rCK1g1GXWYdgBix2bMOqh-bIGXbgX_lP3lWZUUYxsc4jgET_9SOpTyYAw4HFBbYlAIzmO42u-Vhfo_Ksh_5fAZy5Cqeyw",
+        image: "https://plus.unsplash.com/premium_photo-1689977807477-a579eda91fa2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTd8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D",
     },
     {
         id: 2,
         name: "Ethan Bennett",
         rating: "4.9 stars",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBjhx2lN1-XwOQH5PZDMgZv7RUSRq89eivW5XSIaPH8FS9LWEajiteOOAlu9tBHnT333kKkmOb_tm1TYPaC997HiB3LZqdcxjazLfCm4hICQsyYEg4PvP-cbl6RglhOoeFQ9GobLbawstqVq5NdlRWbcQiNw7-JV_aNUte-0pI8TRQ4t4kLpGbIDeNtDF47iBBAjeCpZyFCBbfsvfP8YrN0edWUApiA9Vu85RJ6UOpKN_-ECAvyBeMgUTeKTQwQAoJQEWzzABJMLBw",
+        image: "https://plus.unsplash.com/premium_photo-1689629870780-5d0e655383e6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Njl8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D",
     },
     {
         id: 3,
         name: "Olivia Hayes",
         rating: "4.7 stars",
-        image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCr9tLyuN4O_goXDvfCeEzmosEhV2JCP7OJleZbVhZe_g7F4OBUrMxNJj0GpYbQZJEya_2TZygWHG9EvaJz5NCMkLB3cCeHT-skSn6F4hpjgfCnIgIRJthKl9tfZwlcuGaharmZjs1HgMmNwk18YlaGmPZoYsLoGzmt6AeFXLNBNHWp58sOpOcgfXxXb2or6vFtCxtPDz9K1uElKn2DEZsHdpnlCawNjmf_BwSkf5YzW1foVnwFDeGDDqXZTQ39Vo2-EtLEd52djdE",
+        image: "https://plus.unsplash.com/premium_photo-1690086519096-0594592709d3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzN8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D",
     },
 ];

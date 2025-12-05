@@ -21,7 +21,7 @@ const Home = () => {
                 setLoading(true);
                 const [recentRes, topRes] = await Promise.all([
                     axios.get("/filtered-vehicle?sortby=createdAt&limit=6"),
-                    axios.get("/filtered-vehicle?sortby=ratings&limit=3"),
+                    axios.get("/filtered-vehicle?sortby=ratings&limit=4"),
                 ]);
                 setVehicles(recentRes.data);
                 setTopVehicles(topRes.data);
@@ -38,12 +38,18 @@ const Home = () => {
     if (loading) return <LoadingEffect />;
 
     return (
-        <div>
-            <ScrollMotion />
-            <Hero />
-            <RecentlyAdded vehicles={vehicles} />
-            <TopRatedAndOwners topVehicles={topVehicles} />
-            <AboutSection />
+        <div className="">
+            <div className="px-0 sm:px-[8%]">
+                <Hero />
+            </div>
+
+            <div className="px-[8%]">
+                <ScrollMotion />
+
+                <RecentlyAdded vehicles={vehicles} />
+                <TopRatedAndOwners topVehicles={topVehicles} />
+                <AboutSection />
+            </div>
         </div>
     );
 };

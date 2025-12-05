@@ -13,7 +13,7 @@ const VehicleCard = ({ vehicle }) => {
                 <img
                     src={coverImage}
                     alt={vehicleName}
-                    className="w-full max-h-50"
+                    className="w-full max-h-42"
                 />
             </figure>
             <div>

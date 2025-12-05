@@ -66,17 +66,14 @@ const Login = () => {
     return (
         <div className="w-full">
             {/* Image Banner */}
-            <div className=" h-[600px] flex flex-col items-center justify-center ">
-                <h2 className="text-3xl md:text-4xl text-center w-full font-semibold mb-10">
+            <div className=" h-[600px] flex flex-col items-center mt-3">
+                <h2 className="text-3xl md:text-4xl text-center w-full font-semibold mb-5">
                     Please Login here
                 </h2>
 
                 {/* Login Form */}
-                <div className="card relative custom-shadow w-[350px] sm:min-w-sm">
+                <div className="card shadow-2xl w-[350px] sm:min-w-sm">
                     <div className="w-full card-body text-center">
-                        <p className="absolute -top-3 -left-5 font-semibold text-2xl">
-                            Log-in
-                        </p>
                         <form
                             onSubmit={handleLogin}
                             className="flex flex-col gap-2"

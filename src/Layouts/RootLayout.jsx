@@ -14,12 +14,12 @@ const RootLayout = () => {
     const isLoading = navigation.state == "loading";
 
     return (
-        <div className="">
+        <div>
             <Toaster position="top-center" reverseOrder={false} />
             <nav className="sticky top-0 z-50 bg-base-100">
                 <Navbar />
             </nav>
-            <main>
+            <main className="min-h-screen">
                 {isLoading || loading ? (
                     <LoadingEffect></LoadingEffect>
                 ) : (

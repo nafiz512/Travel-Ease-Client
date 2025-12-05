@@ -98,7 +98,7 @@ const Signup = () => {
                     Create Your Travel-Ease Account
                 </h2>
                 {/* signup Form */}
-                <div className="card custom-shadow w-[350px] sm:min-w-sm">
+                <div className="card shadow-2xl w-[350px] sm:min-w-sm">
                     <div className="w-full card-body text-center">
                         <form
                             onSubmit={handleSignUp}

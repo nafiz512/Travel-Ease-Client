@@ -104,26 +104,25 @@ const AllVehicles = () => {
     };
     if (isLoading) {
         return (
-            <div className="px-4 md:px-40">
-                {/* <LoadingEffect></LoadingEffect> */}
+            <div className="w-10/12 mx-auto">
                 <SkeletonLoader></SkeletonLoader>
             </div>
         );
     }
     return (
-        <div>
+        <div className="w-10/12 mx-auto">
             <ScrollMotion></ScrollMotion>
-            <div className="px-4 md:px-40 flex flex-1 justify-center py-5">
-                <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div className=" flex flex-1 justify-center py-5">
+                <div className="layout-content-container flex flex-col  flex-1">
                     {/* Header */}
-                    <div className="flex flex-wrap justify-between gap-3 p-4">
+                    <div className="flex flex-wrap justify-between gap-3 ">
                         <p className="text-base-content tracking-light text-2xl md:text-4xl font-bold leading-tight min-w-72">
                             All Vehicles
                         </p>
                     </div>
                     <div className="flex justify-between w-full">
                         {/* Filter Buttons */}
-                        <div className="flex gap-3 p-3 flex-wrap pr-4">
+                        <div className="flex gap-3 flex-wrap pr-4">
                             <h2 className="text-base-content font-semibold">
                                 Filter :
                             </h2>
@@ -215,7 +214,7 @@ const AllVehicles = () => {
                                 </div>
                                 <ul
                                     tabIndex="-1"
-                                    className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm max-h-60 overflow-y-auto"
+                                    className="dropdown-content menu bg-base-100 rounded-box z-1 w-32 p-2 shadow-sm max-h-60 overflow-y-auto"
                                 >
                                     <li onClick={() => handleSort("asc")}>
                                         <a>asc</a>
@@ -229,7 +228,7 @@ const AllVehicles = () => {
                     </div>
 
                     {/* Vehicles Grid */}
-                    <div className="grid grid-cols-1  md:grid-cols-2  lg:grid-cols-3  gap-4 p-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-3  lg:grid-cols-4  gap-4 mt-3">
                         {vehiclesData.map((vehicle) => (
                             <VehicleCard
                                 key={vehicle._id}

@@ -5,8 +5,8 @@ const AboutSection = () => {
     return (
         <div className="bg-base-100">
             {/* Hero About Section */}
-            <section className=" px-4 md:px-8 lg:px-20">
-                <div className="max-w-7xl mx-auto">
+            <section className="">
+                <div className="">
                     {/* Header */}
                     <div className="text-center mb-6 md:mb-12">
                         <h2 className="text-2xl md:text-4xl font-bold">
